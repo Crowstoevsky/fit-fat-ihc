@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Stock | FitFat</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-[#FCFBF9] text-[#222222]">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="fixed top-0 left-0 h-full w-64 bg-white shadow-xl border-r border-white/30 px-6 pt-10 z-50 transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0" id="sidebar">
+      <!-- Logo -->
+      <div class="flex justify-center mb-8">
+        <img src="../img/logo.jpg" alt="Logo FitFat" class="w-20 h-20 rounded-full object-cover border border-black">
+      </div>
+
+      <!-- Menú navegación -->
+      <nav>
+        <ul class="space-y-2">
+
+          <li>
+            <a href="inicio.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7m-9 2v8h4v-8m5 0l2 2m-2-2v8m0 0H5m14 0H5" />
+              </svg>
+              Inicio
+            </a>
+          </li>
+
+          <li>
+            <a href="historial.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 8h10M7 12h6m-6 4h10M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+              </svg>
+              Historial
+            </a>
+          </li>
+
+          <li>
+            <a href="ingresos.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+              Ingresos
+            </a>
+          </li>
+
+          <li>
+            <a href="gastos.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              Gastos
+            </a>
+          </li>
+          <li>
+            <a href="stock.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
+              </svg>
+              Stock
+            </a>
+          </li>
+          <li>
+            <button onclick="cerrarSesion()"
+              class="flex items-center gap-3 w-full px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+              </svg>
+              Cerrar sesión
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+
+      <!-- Botón cerrar en mobile -->
+      <button id="close-sidebar" class="text-black absolute top-4 right-4 focus:outline-none md:hidden">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </aside>
+
+
+
+
+    <!-- Hamburger Menu Button for Mobile -->
+    <div class="md:hidden fixed top-4 left-4 z-50" id="menu-toggle-container">
+      <button id="menu-toggle" class="text-[#222222] focus:outline-none">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="flex-1 p-4 overflow-auto md:ml-72" id="main-content">
+      <header class="flex flex-col md:flex-row justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold mt-6">Gestión de Stock</h1>
+      </header>
+
+      <!-- Formulario -->
+      <section class="bg-white border border-gray-200 rounded-lg p-6 shadow max-w-4xl mx-auto">
+        <h2 class="text-xl font-semibold mb-4">Agregar nuevo producto</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+          <input id="nuevoProducto" type="text" placeholder="Nombre del producto" class="border border-gray-300 rounded px-4 py-2 w-full" />
+          <input id="nuevoPrecio" type="number" placeholder="Precio (S/.)" min="0" class="border border-gray-300 rounded px-4 py-2 w-full" />
+          <input id="nuevoStock" type="number" placeholder="Stock inicial" min="0" class="border border-gray-300 rounded px-4 py-2 w-full" />
+          <button onclick="agregarStock()" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 w-full sm:w-auto">Agregar</button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full border-collapse text-sm text-left">
+            <thead class="bg-gray-200 text-gray-800">
+              <tr>
+                <th class="px-4 py-2 border">Producto</th>
+                <th class="px-4 py-2 border text-center">Precio (S/.)</th>
+                <th class="px-4 py-2 border text-center">Stock</th>
+                <th class="px-4 py-2 border text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-stock" class="text-black">
+              <!-- Filas dinámicas -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+  // Sidebar toggle para móvil
+  document.getElementById('menu-toggle').addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('menu-toggle-container');
+    sidebar.classList.toggle('-translate-x-full');
+    sidebar.classList.toggle('translate-x-0');
+    if (sidebar.classList.contains('translate-x-0')) toggle.style.display = 'none';
+  });
+
+  document.getElementById('close-sidebar').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('-translate-x-full');
+    document.getElementById('sidebar').classList.remove('translate-x-0');
+    document.getElementById('menu-toggle-container').style.display = 'block';
+  });
+
+  function cerrarSesion() {
+    sessionStorage.clear();
+    window.location.href = "../login.html";
+  }
+
+  const tablaStock = document.getElementById('tabla-stock');
+
+  // Datos precargados
+  const precios = {
+    'Alitas BBQ': 15,
+    'Café americano': 9,
+    'Cheesecake frutos rojos': 12,
+    'Hamburguesa clásica': 18,
+    'Postre de chocolate': 10,
+    'Ensalada proteica': 14
+  };
+
+  // Precargar productos en tabla
+  window.addEventListener('DOMContentLoaded', () => {
+    for (const producto in precios) {
+      const precio = precios[producto];
+      const stock = 10; // valor por defecto
+      agregarFilaStock(producto, precio, stock);
+    }
+  });
+
+  function agregarFilaStock(nombre, precio, stock) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="px-4 py-2 border">${nombre}</td>
+      <td class="px-4 py-2 border text-center">S/.${precio.toFixed(2)}</td>
+      <td class="px-4 py-2 border text-center">${stock}</td>
+      <td class="px-4 py-2 border text-center space-x-2">
+        <button class="text-blue-600 hover:underline">Editar</button>
+        <button onclick="this.closest('tr').remove()" class="text-red-600 hover:underline">Eliminar</button>
+      </td>
+    `;
+    tablaStock.appendChild(tr);
+  }
+
+  function agregarStock() {
+    const nombre = document.getElementById('nuevoProducto').value.trim();
+    const precio = parseFloat(document.getElementById('nuevoPrecio').value);
+    const stock = parseInt(document.getElementById('nuevoStock').value);
+
+    if (!nombre || isNaN(precio) || isNaN(stock) || precio < 0 || stock < 0) {
+      alert("Completa todos los campos correctamente");
+      return;
+    }
+
+    agregarFilaStock(nombre, precio, stock);
+
+    document.getElementById('nuevoProducto').value = '';
+    document.getElementById('nuevoPrecio').value = '';
+    document.getElementById('nuevoStock').value = '';
+  }
+</script>
+
+</body>
+</html>

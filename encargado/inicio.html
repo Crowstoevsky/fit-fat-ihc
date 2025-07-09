@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Ventas | FitFat</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 text-black min-h-screen p-6">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-4">
+      <img src="../img/logo.jpg" alt="Logo FitFat" class="w-10 h-10 rounded-full border border-black" />
+      <div>
+        <h1 class="text-xl font-bold">FITFAT</h1>
+        <p class="text-sm text-gray-500">Encargado: Juan Pérez</p>
+      </div>
+    </div>
+    <button onclick="cerrarSesion()" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800">Cerrar sesión</button>
+  </header>
+
+<!-- Registrar Venta -->
+<section class="max-w-4xl mx-auto bg-white p-6 rounded shadow border border-gray-200">
+  <h2 class="text-2xl font-semibold mb-6 text-center sm:text-left">Registrar Venta</h2>
+
+  <!-- Formulario -->
+  <div class="flex flex-col sm:grid sm:grid-cols-3 gap-4 mb-6">
+    <input list="productos" id="producto" placeholder="Selecciona producto"
+      class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-black" />
+    <datalist id="productos">
+      <option value="Alitas BBQ">
+      <option value="Café americano">
+      <option value="Cheesecake frutos rojos">
+      <option value="Hamburguesa clásica">
+      <option value="Postre de chocolate">
+      <option value="Ensalada proteica">
+    </datalist>
+
+    <input type="number" id="cantidad" placeholder="Cantidad" min="1"
+      class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-black" />
+    <button onclick="agregarVenta()" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 w-full sm:w-auto">Agregar</button>
+  </div>
+
+  <!-- Tabla dinámica -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full border-collapse text-sm text-left">
+      <thead>
+        <tr class="border-b border-gray-300 bg-gray-100 text-gray-700">
+          <th class="px-4 py-2 font-medium">Producto</th>
+          <th class="px-4 py-2 font-medium text-center">Cantidad</th>
+          <th class="px-4 py-2 font-medium text-center">Subtotal (S/)</th>
+          <th class="px-4 py-2 font-medium text-center">Eliminar</th>
+        </tr>
+      </thead>
+      <tbody id="tabla-ventas" class="text-gray-800">
+        <!-- Items agregados dinámicamente -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-6 text-right">
+    <button onclick="registrarVentas()" class="px-6 py-2 border border-black rounded hover:bg-black hover:text-white transition">
+      Registrar venta del día
+    </button>
+  </div>
+</section>
+
+<!-- Historial -->
+<section class="max-w-4xl mx-auto mt-12 bg-white p-6 rounded shadow border border-gray-200">
+  <h2 class="text-xl font-semibold mb-4 text-center sm:text-left">Historial de ventas del día</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm text-left border-collapse">
+      <thead class="bg-black text-white">
+        <tr>
+          <th class="px-4 py-2 border border-black">Producto</th>
+          <th class="px-4 py-2 border border-black text-center">Cantidad</th>
+          <th class="px-4 py-2 border border-black text-center">Total (S/)</th>
+          <th class="px-4 py-2 border border-black text-center">Hora</th>
+        </tr>
+      </thead>
+      <tbody id="historial" class="text-black">
+        <tr>
+          <td class="px-4 py-2 border border-black">Hamburguesa clásica</td>
+          <td class="text-center border border-black">2</td>
+          <td class="text-center border border-black">S/.36.00</td>
+          <td class="text-center border border-black">09:42:11</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border border-black">Café americano</td>
+          <td class="text-center border border-black">1</td>
+          <td class="text-center border border-black">S/.9.00</td>
+          <td class="text-center border border-black">09:45:29</td>
+        </tr>
+        <tr>
+          <td class="px-4 py-2 border border-black">Cheesecake frutos rojos</td>
+          <td class="text-center border border-black">3</td>
+          <td class="text-center border border-black">S/.36.00</td>
+          <td class="text-center border border-black">10:02:15</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-500 mt-16">
+    &copy; 2025 FitFat — Registro de ventas
+  </footer>
+
+  <script>
+    const tabla = document.getElementById('tabla-ventas');
+    const historial = document.getElementById('historial');
+    let ventas = [];
+
+    const precios = {
+      'Alitas BBQ': 15,
+      'Café americano': 9,
+      'Cheesecake frutos rojos': 12,
+      'Hamburguesa clásica': 18,
+      'Postre de chocolate': 10,
+      'Ensalada proteica': 14
+    };
+
+    function agregarVenta() {
+      const producto = document.getElementById('producto').value.trim();
+      const cantidad = parseInt(document.getElementById('cantidad').value);
+
+      if (!producto || isNaN(cantidad) || cantidad <= 0) {
+        alert("Completa todos los campos correctamente");
+        return;
+      }
+
+      const precio = precios[producto] ?? 12;
+      const subtotal = precio * cantidad;
+
+      ventas.push({ producto, cantidad, subtotal, hora: new Date().toLocaleTimeString() });
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-4 py-2 border-t">${producto}</td>
+        <td class="px-4 py-2 border-t text-center">${cantidad}</td>
+        <td class="px-4 py-2 border-t text-center">S/.${subtotal.toFixed(2)}</td>
+        <td class="px-4 py-2 border-t text-center">
+          <button onclick="this.closest('tr').remove()" class="text-red-500 hover:underline">Eliminar</button>
+        </td>
+      `;
+      tabla.appendChild(tr);
+
+      document.getElementById('producto').value = '';
+      document.getElementById('cantidad').value = '';
+    }
+
+    function registrarVentas() {
+      if (ventas.length === 0) {
+        alert("No hay ventas para registrar.");
+        return;
+      }
+
+      ventas.forEach(v => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-4 py-2 border border-black">${v.producto}</td>
+          <td class="text-center border border-black">${v.cantidad}</td>
+          <td class="text-center border border-black">S/.${v.subtotal.toFixed(2)}</td>
+          <td class="text-center border border-black">${v.hora}</td>
+        `;
+        historial.appendChild(row);
+      });
+
+      tabla.innerHTML = '';
+      ventas = [];
+      alert("Venta registrada con éxito ✅");
+    }
+
+    function cerrarSesion() {
+      sessionStorage.clear();
+      window.location.href = "../login.html";
+    }
+  </script>
+</body>
+</html>

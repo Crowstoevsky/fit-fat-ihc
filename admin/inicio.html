@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard FitFat</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://www.userway.org/widget.js" data-account="YOUR_ACCOUNT_ID"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-[#FCFBF9] text-[#222222]">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside
+      class="fixed top-0 left-0 h-full w-64 bg-white shadow-xl border-r border-white/30 px-6 pt-10 z-50 transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0"
+      id="sidebar">
+
+      <!-- Logo -->
+      <div class="flex justify-center mb-8">
+        <img src="../img/logo.jpg" alt="Logo FitFat" class="w-20 h-20 rounded-full object-cover border border-black">
+      </div>
+
+      <!-- Menú navegación -->
+      <nav>
+        <ul class="space-y-2">
+
+          <li>
+            <a href="inicio.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 12l2-2m0 0l7-7 7 7m-9 2v8h4v-8m5 0l2 2m-2-2v8m0 0H5m14 0H5" />
+              </svg>
+              Inicio
+            </a>
+          </li>
+
+          <li>
+            <a href="historial.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M7 8h10M7 12h6m-6 4h10M5 4h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
+              </svg>
+              Historial
+            </a>
+          </li>
+
+          <li>
+            <a href="ingresos.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+              Ingresos
+            </a>
+          </li>
+
+          <li>
+            <a href="gastos.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+              Gastos
+            </a>
+          </li>
+          <li>
+            <a href="stock.html"
+              class="flex items-center gap-3 px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
+              </svg>
+              Stock
+            </a>
+          </li>
+          <li>
+            <button onclick="cerrarSesion()"
+              class="flex items-center gap-3 w-full px-4 py-2 rounded-md text-black hover:bg-gray-800 hover:text-white transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" />
+              </svg>
+              Cerrar sesión
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+
+      <!-- Botón cerrar en mobile -->
+      <button id="close-sidebar" class="text-black absolute top-4 right-4 focus:outline-none md:hidden">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </aside>
+
+
+
+
+    <!-- Hamburger Menu Button for Mobile -->
+    <div class="md:hidden fixed top-4 left-4 z-50" id="menu-toggle-container">
+      <button id="menu-toggle" class="text-[#222222] focus:outline-none">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-4 overflow-auto md:ml-72" id="main-content">
+      <header class="flex flex-col gap-6 md:flex-row justify-between items-center mb-6 px-4">
+        <h1 class="text-3xl font-bold">Dashboard</h1>
+
+        <div class="w-full overflow-x-auto">
+          <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 min-w-[600px]">
+            <div class="text-center p-4 bg-white border border-gray-200 rounded-lg w-full">
+              <p>Anual</p>
+              <p class="text-lg font-semibold">S/.12K <span class="text-green-500">+11.1%</span></p>
+            </div>
+            <div class="text-center p-4 bg-white border border-gray-200 rounded-lg w-full">
+              <p>Mensual</p>
+              <p class="text-lg font-semibold">S/.1K <span class="text-red-500">-0.5%</span></p>
+            </div>
+            <div class="text-center p-4 bg-white border border-gray-200 rounded-lg w-full">
+              <p>Semanal</p>
+              <p class="text-lg font-semibold">S/.200 <span class="text-green-500">+15.3%</span></p>
+            </div>
+            <div class="text-center p-4 bg-white border border-gray-200 rounded-lg w-full">
+              <p>Hoy</p>
+              <p class="text-lg font-semibold">S/.50 <span class="text-green-500">+0.8%</span></p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-[#FCFBF9] border border-[#222222] p-4 rounded-lg">
+          <h2 class="text-xl font-semibold mb-2">Ventas Totales</h2>
+          <p class="text-[#222222] opacity-70">* Semana Actual + Semana Pasada</p>
+          <div class="h-64">
+            <canvas id="ventasTotalesChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-[#FCFBF9] border border-[#222222] p-4 rounded-lg">
+          <h2 class="text-xl font-semibold mb-2">Ventas por Mes</h2>
+          <div class="h-64">
+            <canvas id="ventasPorMesChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-[#FCFBF9] border border-[#222222] p-4 rounded-lg">
+          <h2 class="text-xl font-semibold mb-2">Venta de Platos</h2>
+          <div class="h-64">
+            <canvas id="ventaPlatosChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-[#FCFBF9] border border-[#222222] p-4 rounded-lg">
+          <h2 class="text-xl font-semibold mb-2">Gastos por Mes</h2>
+          <div class="h-64">
+            <canvas id="gastosPorMesChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Toggle Sidebar for Mobile
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menu-toggle-container');
+
+      sidebar.classList.toggle('-translate-x-full');
+      sidebar.classList.toggle('translate-x-0');
+
+      // Oculta el botón del menú hamburguesa al abrir el sidebar
+      if (sidebar.classList.contains('translate-x-0')) {
+        menuToggle.style.display = 'none';
+      }
+    });
+
+    document.getElementById('close-sidebar').addEventListener('click', function () {
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menu-toggle-container');
+
+      sidebar.classList.add('-translate-x-full');
+      sidebar.classList.remove('translate-x-0');
+
+      // Muestra el botón hamburguesa al cerrar el sidebar
+      menuToggle.style.display = 'block';
+    });
+
+    // Responsive layout adjustment
+    function adjustLayout() {
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menu-toggle-container');
+
+      if (window.innerWidth >= 768) {
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
+        menuToggle.style.display = 'none';
+      } else {
+        sidebar.classList.remove('translate-x-0');
+        sidebar.classList.add('-translate-x-full');
+        menuToggle.style.display = 'block';
+      }
+    }
+
+    adjustLayout();
+    window.addEventListener('resize', adjustLayout);
+
+    // Chart: Ventas Totales
+    new Chart(document.getElementById('ventasTotalesChart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['Mar', 'Abr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Semana Actual',
+          data: [10000, 12000, 15000, 14000, 16000],
+          borderColor: '#444444',
+          fill: false
+        }, {
+          label: 'Semana Pasada',
+          data: [11000, 11500, 14500, 13500, 15500],
+          borderColor: '#D0F4DE',
+          fill: false,
+          borderDash: [5, 5]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, ticks: { color: '#222222' } },
+          x: { ticks: { color: '#222222' } }
+        }
+      }
+    });
+
+    // Función para interpolar colores verdes cremosos
+    function interpolateGreenCream(min, max, value) {
+      const lighten = (start, end, ratio) =>
+        Math.round(start + (end - start) * ratio);
+
+      const startColor = { r: 233, g: 252, b: 235 }; // #E9FCEB (verde crema claro)
+      const endColor = { r: 76, g: 175, b: 80 };     // #4CAF50 (verde más intenso)
+
+      const ratio = (value - min) / (max - min);
+
+      const r = lighten(startColor.r, endColor.r, ratio);
+      const g = lighten(startColor.g, endColor.g, ratio);
+      const b = lighten(startColor.b, endColor.b, ratio);
+
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    const ventas = [15, 20, 25, 22, 18, 30];
+    const minVenta = Math.min(...ventas);
+    const maxVenta = Math.max(...ventas);
+
+    const bgVentaColors = ventas.map(valor => interpolateGreenCream(minVenta, maxVenta, valor));
+
+    // Chart: Ventas por Mes
+    new Chart(document.getElementById('ventasPorMesChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Ventas',
+          data: ventas,
+          backgroundColor: bgVentaColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, ticks: { color: '#222222' } },
+          x: { ticks: { color: '#222222' } }
+        }
+      }
+    });
+
+
+    // Chart: Venta de Platos
+    new Chart(document.getElementById('ventaPlatosChart').getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: ['Café Americano', 'Hamburguesa', 'Otros'],
+        datasets: [{
+          data: [38.5, 30.8, 30.7],
+          backgroundColor: ['#FFD5CD', '#E2F0CB', '#CDE7F0'] // rosa pastel, verde claro, azul claro
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+    // Chart: Gastos por Mes
+    // Función para interpolar colores en escala cremosa de rojo
+    function interpolateRedCream(min, max, value) {
+      const lighten = (start, end, ratio) =>
+        Math.round(start + (end - start) * ratio);
+
+      // Colores extremos en RGB
+      const startColor = { r: 255, g: 240, b: 240 }; // #FFF0F0 (claro)
+      const endColor = { r: 255, g: 74, b: 74 };     // #FF4A4A (oscuro)
+
+      const ratio = (value - min) / (max - min);
+
+      const r = lighten(startColor.r, endColor.r, ratio);
+      const g = lighten(startColor.g, endColor.g, ratio);
+      const b = lighten(startColor.b, endColor.b, ratio);
+
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    const gastos = [22, 18, 25, 20, 15, 30];
+    const minGasto = Math.min(...gastos);
+    const maxGasto = Math.max(...gastos);
+
+    // Generar escala dinámica de colores
+    const bgColors = gastos.map(valor => interpolateRedCream(minGasto, maxGasto, valor));
+
+    // Chart: Gastos por Mes
+    new Chart(document.getElementById('gastosPorMesChart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Gastos',
+          data: gastos,
+          backgroundColor: bgColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, ticks: { color: '#222222' } },
+          x: { ticks: { color: '#222222' } }
+        }
+      }
+    });
+
+    function cerrarSesion() {
+      sessionStorage.clear();
+      window.location.href = "../login.html";
+    }
+  </script>
+</body>
+
+</html>
